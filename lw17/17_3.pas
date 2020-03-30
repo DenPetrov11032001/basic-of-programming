@@ -2,11 +2,11 @@ PROGRAM Start(INPUT, OUTPUT);
 CONST 
   MAXINT = 32767;
   
-PROCEDURE ReadDigit(VAR SourceFile, DistinationFile: TEXT);
+PROCEDURE ReadNumber(VAR SourceFile, DistinationFile: TEXT);
 VAR
   ToolDigit, Min, Max, SumArith, CountDigits: INTEGER;
   
-BEGIN { ReadDigit }
+BEGIN { ReadNumber }
   Min := 0;
   Max := 0;
   ToolDigit := 0;
@@ -50,8 +50,8 @@ BEGIN { ReadDigit }
       SumArith := (SumArith) DIV (CountDigits);
       WRITELN(DistinationFile, 'SumArith = ', SumArith); 
     END 
-END; { ReadDigit }  
+END; { ReadNumber }  
 
-BEGIN { SeventeenOne }
+BEGIN { Start }
   ReadDigit(INPUT, OUTPUT)
-END. { SeventeenOne }
+END. { Start }

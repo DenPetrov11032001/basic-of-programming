@@ -1,14 +1,14 @@
-PROGRAM SeventeenOne(INPUT, OUTPUT);
+PROGRAM SeventeenTwo(INPUT, OUTPUT);
 CONST 
   MAXINT = 32767;
   
-PROCEDURE ReadDigits(VAR SourceFile, DistinationFile: TEXT);
+PROCEDURE ReadNumber(VAR SourceFile, DistinationFile: TEXT);
 VAR
   MiddleDigit, Digit: INTEGER;
   Ch: CHAR;
   MiddleFile: TEXT;
   
-BEGIN { ReadDigit }
+BEGIN { ReadNumber }
   REWRITE(MiddleFile);
   WHILE (NOT EOLN(SourceFile)) AND (Ch <> 'E')
   DO
@@ -35,8 +35,8 @@ BEGIN { ReadDigit }
       IF Digit > MAXINT THEN Digit := -1
     END;
   WRITELN(DistinationFile, Digit)
-END; { ReadDigit }  
+END; { ReadNumber }  
 
-BEGIN { SeventeenOne }
+BEGIN { SeventeenTwo }
   ReadDigits(INPUT, OUTPUT)
-END. { SeventeenOne }
+END. { SeventeenTwo }
