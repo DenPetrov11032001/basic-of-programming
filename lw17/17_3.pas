@@ -12,7 +12,7 @@ BEGIN { ReadNumber }
   ToolDigit := 0;
   SumArith := 0;
   CountDigits := 0;
-  WHILE NOT EOF(SourceFile) 
+  WHILE NOT EOF(SourceFile) AND (ToolDigit <> -1) 
   DO
     BEGIN
       WHILE NOT EOLN(SourceFile) AND (ToolDigit <> -1) 
@@ -26,6 +26,9 @@ BEGIN { ReadNumber }
           ELSE
             BEGIN
               SumArith := SumArith + ToolDigit;
+	      IF SumArith > MAXINT
+	      THEN
+                ToolDigit := -1;
               IF ToolDigit > Max
               THEN
                 Max := ToolDigit;
@@ -36,9 +39,7 @@ BEGIN { ReadNumber }
         END;
       IF (ToolDigit <> -1) 
       THEN
-        READLN(SourceFile)
-      ELSE
-        BREAK;
+        READLN(SourceFile);
     END; 
   IF (ToolDigit = -1)
   THEN
