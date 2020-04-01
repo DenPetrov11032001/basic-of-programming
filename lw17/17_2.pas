@@ -1,7 +1,5 @@
 PROGRAM SeventeenTwo(INPUT, OUTPUT);
-CONST 
-  MAXINT = 32767;
-  
+
 PROCEDURE ReadNumber(VAR SourceFile, DistinationFile: TEXT);
 VAR
   MiddleDigit, Digit: INTEGER;
@@ -38,5 +36,5 @@ BEGIN { ReadNumber }
 END; { ReadNumber }  
 
 BEGIN { SeventeenTwo }
-  ReadDigits(INPUT, OUTPUT)
+  ReadNumber(INPUT, OUTPUT)
 END. { SeventeenTwo }
