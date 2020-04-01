@@ -87,6 +87,6 @@ BEGIN { CalculateData }
     END 
 END; { CalculateData }  
 
-BEGIN { SeventeenOne }
+BEGIN { Start }
   CalculateData(INPUT, OUTPUT)
-END. { SeventeenOne }
+END. { Start }

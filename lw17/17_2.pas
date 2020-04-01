@@ -25,14 +25,17 @@ BEGIN { ReadNumber }
   DO
     BEGIN
       READ(MiddleFile, MiddleDigit);
-      IF (MiddleDigit >= MAXINT) AND (Digit > 0) 
+      IF ((MiddleDigit >= MAXINT) AND (Digit > 0) OR (MiddleDigit > MAXINT)) 
       THEN 
         Digit := -1
       ELSE
-        Digit := Digit + MiddleDigit;
-      IF Digit > MAXINT THEN Digit := -1
+        Digit := Digit + MiddleDigit
     END;
-  WRITELN(DistinationFile, Digit)
+  IF (Digit < 0) OR (Digit > MAXINT)
+  THEN
+    WRITELN(DistinationFile, 'OVERFLOW DATA')
+  ELSE  
+    WRITELN(DistinationFile, Digit)
 END; { ReadNumber }  
 
 BEGIN { SeventeenTwo }
