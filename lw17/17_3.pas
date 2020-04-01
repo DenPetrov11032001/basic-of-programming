@@ -1,4 +1,6 @@
 PROGRAM Start(INPUT, OUTPUT);
+VAR
+  ToolDigit, Min, Max, SumArith, CountDigits: INTEGER;
 
 PROCEDURE ReadNumber(VAR SourceFile: TEXT; VAR DigitSource: INTEGER);
 VAR
@@ -37,23 +39,20 @@ BEGIN { ReadNumber }
   DigitSource := Digit
 END; { ReadNumber }  
 
-PROCEDURE CalculateData(VAR SourceFile, DistinationFile: TEXT);
-VAR
-  ToolDigit, Min, Max, SumArith, CountDigits: INTEGER;
-  
-BEGIN { CalculateData }
+
+BEGIN { Start }
   Min := 0;
   Max := 0;
   ToolDigit := 0;
   SumArith := 0;
   CountDigits := 0;
-  WHILE NOT EOF(SourceFile) 
+  WHILE NOT EOF(INPUT) 
   DO
     BEGIN
-      WHILE NOT EOLN(SourceFile) AND (ToolDigit <> -1) 
+      WHILE NOT EOLN(INPUT) AND (ToolDigit <> -1) 
       DO
         BEGIN
-          ReadNumber(SourceFile, ToolDigit);
+          ReadNumber(INPUT, ToolDigit);
           CountDigits := CountDigits + 1;
           IF (ToolDigit = -1)
           THEN
@@ -71,22 +70,18 @@ BEGIN { CalculateData }
         END;
       IF (ToolDigit <> -1) 
       THEN
-        READLN(SourceFile)
+        READLN(INPUT)
       ELSE
-        BREAK;
+        BREAK
     END; 
   IF (ToolDigit = -1)
   THEN
-    WRITELN(DistinationFile, 'Not correct input, one of number is more than 32767')
+    WRITELN(OUTPUT, 'Not correct input, one of number is more than 32767')
   ELSE
     BEGIN    
-      WRITELN(DistinationFile, 'Max = ', Max);
-      WRITELN(DistinationFile, 'Min = ', Min);
+      WRITELN(OUTPUT, 'Max = ', Max);
+      WRITELN(OUTPUT, 'Min = ', Min);
       SumArith := (SumArith) DIV (CountDigits);
-      WRITELN(DistinationFile, 'SumArith = ', SumArith); 
+      WRITELN(OUTPUT, 'SumArith = ', SumArith) 
     END 
-END; { CalculateData }  
-
-BEGIN { Start }
-  CalculateData(INPUT, OUTPUT)
 END. { Start }

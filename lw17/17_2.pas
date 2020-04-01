@@ -8,7 +8,7 @@ VAR
   
 BEGIN { ReadNumber }
   REWRITE(MiddleFile);
-  WHILE (NOT EOLN(SourceFile)) AND (Ch <> 'E')
+  WHILE NOT EOLN(SourceFile)
   DO
     BEGIN
       READ(SourceFile, Ch);
@@ -17,7 +17,7 @@ BEGIN { ReadNumber }
       THEN
          WRITE(MiddleFile, Ch)
       ELSE
-        Ch := 'E'
+        BREAK
     END;
   RESET(MiddleFile);
   Digit := 0;
