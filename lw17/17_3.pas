@@ -1,44 +1,50 @@
 PROGRAM Start(INPUT, OUTPUT);
 VAR
   ToolDigit, Min, Max, SumArith, CountDigits: INTEGER;
+  IntDataFile: TEXT;
 
-PROCEDURE ReadNumber(VAR SourceFile: TEXT; VAR DigitSource: INTEGER);
+PROCEDURE CreateIntDataFile(VAR IntDataFile: TEXT);
 VAR
-  MiddleDigit, Digit: INTEGER;
   Ch: CHAR;
-  MiddleFile: TEXT;
-  
-BEGIN { ReadNumber }
-  REWRITE(MiddleFile);
-  WHILE (NOT EOLN(SourceFile)) AND (Ch <> 'E')
+BEGIN { CreateIntDataFile }
+  REWRITE(IntDataFile);
+  WHILE NOT EOLN(INPUT)
   DO
     BEGIN
-      READ(SourceFile, Ch);
+      READ(INPUT, Ch);
       IF (Ch = '0') OR (Ch = '1') OR (Ch = '2') OR (Ch = '3') OR (Ch = '4') OR (Ch = '5') 
       OR (Ch = '6') OR (Ch = '7') OR (Ch = '8') OR (Ch = '9')
       THEN
-         WRITE(MiddleFile, Ch)
+        WRITE(IntDataFile, Ch)
       ELSE
-        Ch := 'E'
+        BREAK
     END;
-  RESET(MiddleFile);
-  Digit := 0;
-  WHILE (NOT EOLN(MiddleFile)) AND (Digit <> -1)
+  RESET(IntDataFile)
+END; { CreateIntDataFile }
+
+PROCEDURE ReadNumber(VAR SourceFile: TEXT; VAR DigitSource: INTEGER);
+VAR
+  MiddleDigit: INTEGER;
+  Ch: CHAR;
+  
+BEGIN { ReadNumber }
+  RESET(SourceFile);
+  DigitSource := 0;
+  MiddleDigit := 0;
+  WHILE (NOT EOLN(SourceFile)) AND (DigitSource <> -1)
   DO
     BEGIN
-      READ(MiddleFile, MiddleDigit); 
-      IF (MiddleDigit >= MAXINT) AND (Digit > 0) 
+      READ(SourceFile, MiddleDigit); 
+      IF (MiddleDigit >= MAXINT) AND (DigitSource > 0) 
       THEN 
-        Digit := -1
+        DigitSource := -1
       ELSE
-        Digit := Digit + MiddleDigit;
-      IF Digit > MAXINT 
+        DigitSource := DigitSource + MiddleDigit;
+      IF DigitSource > MAXINT 
       THEN 
-        Digit := -1
-    END;  
-  DigitSource := Digit
+        DigitSource := -1
+    END
 END; { ReadNumber }  
-
 
 BEGIN { Start }
   Min := 0;
@@ -52,7 +58,8 @@ BEGIN { Start }
       WHILE NOT EOLN(INPUT) AND (ToolDigit <> -1) 
       DO
         BEGIN
-          ReadNumber(INPUT, ToolDigit);
+          CreateIntDataFile(IntDataFile);
+          ReadNumber(IntDataFile, ToolDigit);
           CountDigits := CountDigits + 1;
           IF (ToolDigit = -1)
           THEN
