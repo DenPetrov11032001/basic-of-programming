@@ -2,6 +2,8 @@ PROGRAM AverageScore(INPUT, OUTPUT);
 CONST
   NumberOfScores = 4;
   ClassSize = 5;
+  MaxScore = 100;
+  MinScore = 0;
 TYPE
   Score = 0 .. 100;
 VAR
@@ -10,7 +12,7 @@ VAR
   NextScore: Score;
   Ave, TotalScore, ClassTotal: INTEGER; 
   Ch: CHAR;  
-  FileName: TEXT;  
+  NameStudentFile: TEXT;  
 BEGIN {AverageScore}
   ClassTotal := 0;
   WRITELN('Student averages:');
@@ -19,7 +21,7 @@ BEGIN {AverageScore}
   DO 
     BEGIN
       WRITELN(OUTPUT, 'Enter the student''s grade soname and number');
-      REWRITE(FileName);
+      REWRITE(NameStudentFile);
       READ(INPUT, Ch);
       IF Ch = ' '
       THEN
@@ -27,17 +29,17 @@ BEGIN {AverageScore}
           WHILE NOT EOLN(INPUT) AND (Ch = ' ')
           DO
             READ(INPUT, Ch);
-          WRITE(FileName, Ch)
+          WRITE(NameStudentFile, Ch)
         END
       ELSE
-        WRITE(FileName, Ch);
+        WRITE(NameStudentFile, Ch);
       WHILE (NOT EOLN(INPUT)) AND (Ch <> ' ')
       DO
         BEGIN
           READ(INPUT, Ch);
           IF Ch <> ' '
           THEN
-            WRITE(FileName, Ch)
+            WRITE(NameStudentFile, Ch)
         END;
       TotalScore := 0;
       WhichScore := 1;
@@ -47,7 +49,7 @@ BEGIN {AverageScore}
           IF NOT EOLN(INPUT)
           THEN
             READ(NextScore);
-          IF (NextScore < 0) OR (NextScore > 100)
+          IF (NextScore < MinScore) OR (NextScore > MaxScore)
           THEN
             WRITELN(OUTPUT, 'NOT CORRECT DATA');
           TotalScore := TotalScore + NextScore;
@@ -57,11 +59,11 @@ BEGIN {AverageScore}
       TotalScore := TotalScore * 10;
       Ave := TotalScore DIV NumberOfScores;
       WRITE(OUTPUT, 'Average rating of the ');
-      RESET(FileName);
-      WHILE NOT EOLN(FileName)
+      RESET(NameStudentFile);
+      WHILE NOT EOLN(NameStudentFile)
       DO
         BEGIN
-          READ(FileName, Ch);
+          READ(NameStudentFile, Ch);
           WRITE(OUTPUT, Ch)
         END;
       IF Ave MOD 10 >= 5
@@ -77,4 +79,3 @@ BEGIN {AverageScore}
   ClassTotal := ClassTotal DIV ((ClassSize - 1) * NumberOfScores);
   WRITELN(OUTPUT, ClassTotal DIV 10, '.',  ClassTotal MOD 10:1)
 END.  {AverageScore}
-
