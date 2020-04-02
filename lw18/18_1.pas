@@ -9,6 +9,7 @@ VAR
   Student: 1 .. ClassSize;
   NextScore: Score;
   Ave, TotalScore, ClassTotal: INTEGER;
+  
 BEGIN {AverageScore}
   ClassTotal := 0;
   WRITELN('Student averages:');
@@ -19,7 +20,7 @@ BEGIN {AverageScore}
       TotalScore := 0;
       WhichScore := 1;
       WRITELN('Enter the student''s grade number ', Student);
-      WHILE WhichScore < 5
+      WHILE WhichScore <= 4
       DO
         BEGIN
           IF NOT EOLN
@@ -44,4 +45,3 @@ BEGIN {AverageScore}
   ClassTotal := ClassTotal DIV ((ClassSize - 1) * NumberOfScores);
   WRITELN(ClassTotal DIV 10, '.',  ClassTotal MOD 10:1)
 END.  {AverageScore}
-
