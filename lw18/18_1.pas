@@ -20,7 +20,7 @@ BEGIN {AverageScore}
       TotalScore := 0;
       WhichScore := 1;
       WRITELN('Enter the student''s grade number ', Student);
-      WHILE WhichScore <= 4
+      WHILE WhichScore <= NumberOfScores 
       DO
         BEGIN
           IF NOT EOLN
