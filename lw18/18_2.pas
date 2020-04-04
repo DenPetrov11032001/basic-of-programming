@@ -43,7 +43,7 @@ BEGIN {AverageScore}
         END;
       TotalScore := 0;
       WhichScore := 1;
-      WHILE WhichScore <= 4
+      WHILE WhichScore <= NumberOfScores 
       DO
         BEGIN
           IF NOT EOLN(INPUT)
