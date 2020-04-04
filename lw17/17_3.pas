@@ -2,6 +2,7 @@ PROGRAM Start(INPUT, OUTPUT);
 VAR
   ToolDigit, Min, Max, SumArith, CountDigits: INTEGER;
   IntDataFile: TEXT;
+  IsOverflow: BOOLEAN;
 
 PROCEDURE CreateIntDataFile(VAR IntDataFile: TEXT);
 VAR
@@ -22,28 +23,28 @@ BEGIN { CreateIntDataFile }
   RESET(IntDataFile)
 END; { CreateIntDataFile }
 
-PROCEDURE ReadNumber(VAR SourceFile: TEXT; VAR DigitSource: INTEGER);
+PROCEDURE ReadNumber(VAR SourceFile: TEXT; VAR Sum: INTEGER);
 VAR
-  MiddleDigit: INTEGER;
-  Ch: CHAR;
+  Digit: INTEGER;
+  IsOverflow: BOOLEAN;
   
 BEGIN { ReadNumber }
-  RESET(SourceFile);
-  DigitSource := 0;
-  MiddleDigit := 0;
-  WHILE (NOT EOLN(SourceFile)) AND (DigitSource <> -1)
+  RESET(IntDataFile);
+  Digit := 0;
+  IsOverflow := FALSE;
+  WHILE (NOT EOLN(SourceFile)) AND (NOT IsOverflow)
   DO
     BEGIN
-      READ(SourceFile, MiddleDigit); 
-      IF (MiddleDigit >= MAXINT) AND (DigitSource > 0) 
-      THEN 
-        DigitSource := -1
-      ELSE
-        DigitSource := DigitSource + MiddleDigit;
-      IF DigitSource > MAXINT 
-      THEN 
-        DigitSource := -1
-    END
+      READ(SourceFile, Digit);    
+      IsOverflow := (MAXINT DIV 10 < Sum) OR ((MAXINT DIV 10 = Sum) 
+                      AND (MAXINT MOD 10 < Digit));
+      IF NOT IsOverflow
+      THEN
+        Sum := Sum + Digit
+    END;
+  IF IsOverflow
+  THEN
+    Sum := -1  
 END; { ReadNumber }  
 
 BEGIN { Start }
@@ -52,7 +53,7 @@ BEGIN { Start }
   ToolDigit := 0;
   SumArith := 0;
   CountDigits := 0;
-  WHILE NOT EOF(INPUT) 
+  WHILE (NOT EOF(INPUT)) AND (NOT IsOverflow)
   DO
     BEGIN
       WHILE NOT EOLN(INPUT) AND (ToolDigit <> -1) 
@@ -60,8 +61,9 @@ BEGIN { Start }
         BEGIN
           CreateIntDataFile(IntDataFile);
           ReadNumber(IntDataFile, ToolDigit);
+          IsOverflow := (ToolDigit = -1) OR (SumArith > (MAXINT - ToolDigit));
           CountDigits := CountDigits + 1;
-          IF (ToolDigit = -1)
+          IF (IsOverflow)
           THEN
             BREAK
           ELSE

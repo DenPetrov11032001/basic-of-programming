@@ -7,20 +7,25 @@ VAR
 PROCEDURE ReadNumber(VAR SourceFile: TEXT; VAR Sum: INTEGER);
 VAR
   Digit: INTEGER;
+  IsOverflow: BOOLEAN;
   
 BEGIN { ReadNumber }
   RESET(IntDataFile);
   Digit := 0;
-  WHILE (NOT EOLN(SourceFile)) AND (Sum <> -1)
+  IsOverflow := FALSE;
+  WHILE (NOT EOLN(SourceFile)) AND (NOT IsOverflow)
   DO
     BEGIN
       READ(SourceFile, Digit);    
-      IF ((Digit >= MAXINT) AND (Sum > 0)) OR (Digit > MAXINT) 
-      THEN 
-        Sum := -1
-      ELSE
+      IsOverflow := (MAXINT DIV 10 < Sum) OR ((MAXINT DIV 10 = Sum) 
+                      AND (MAXINT MOD 10 < Digit));
+      IF NOT IsOverflow
+      THEN
         Sum := Sum + Digit
-    END  
+    END;
+  IF IsOverflow
+  THEN
+    Sum := -1  
 END; { ReadNumber }  
 
 BEGIN { SeventeenTwo }
@@ -37,7 +42,7 @@ BEGIN { SeventeenTwo }
         BREAK
     END;
   ReadNumber(IntDataFile, Sum);
-  IF (Sum < 0) OR (Sum > MAXINT)
+  IF (Sum = -1)
   THEN
     WRITELN(OUTPUT, 'OVERFLOW DATA')
   ELSE  
