@@ -1,26 +1,26 @@
 PROGRAM AverageScore(INPUT, OUTPUT);
 CONST
   NumberOfScores = 4;
-  ClassSize = 5;
+  ClassSize = 4;
 TYPE
   Score = 0 .. 100;
 VAR
-  WhichScore: 1 .. NumberOfScores;
-  Student: 1 .. ClassSize;
+  WhichScore: 0 .. NumberOfScores;
+  Student: 0 .. ClassSize;
   NextScore: Score;
   Ave, TotalScore, ClassTotal: INTEGER;
   
 BEGIN {AverageScore}
   ClassTotal := 0;
   WRITELN('Student averages:');
-  Student := 1;
-  WHILE Student < ClassSize
+  Student := 0;
+  WHILE Student < ClassSize 
   DO 
     BEGIN
       TotalScore := 0;
-      WhichScore := 1;
+      WhichScore := 0;
       WRITELN('Enter the student''s grade number ', Student);
-      WHILE WhichScore <= NumberOfScores 
+      WHILE WhichScore < NumberOfScores 
       DO
         BEGIN
           IF NOT EOLN
@@ -32,11 +32,12 @@ BEGIN {AverageScore}
       READLN;
       TotalScore := TotalScore * 10;
       Ave := TotalScore DIV NumberOfScores;
+      WRITE('Average rating of the student number ');
       IF Ave MOD 10 >= 5
       THEN
-        WRITELN('Average rating of the student number ', Student, ': ', Ave DIV 10 + 1)
+        WRITELN(Student, ': ', Ave DIV 10 + 1)
       ELSE
-        WRITELN('Average rating of the student number ', Student, ': ', Ave DIV 10);
+        WRITELN(Student, ': ', Ave DIV 10);
       ClassTotal := ClassTotal + TotalScore;
       Student := Student + 1
     END;
