@@ -1,67 +1,70 @@
 PROGRAM Start(INPUT, OUTPUT);
 VAR
   ToolDigit, Min, Max, SumArith, CountDigits: INTEGER;
-  IntDataFile: TEXT;
   IsOverflow: BOOLEAN;
 
-PROCEDURE CreateIntDataFile(VAR IntDataFile: TEXT);
-VAR
+PROCEDURE ReadDigit(VAR SourceFile: TEXT; VAR Digit: INTEGER);
+VAR 
   Ch: CHAR;
-BEGIN { CreateIntDataFile }
-  REWRITE(IntDataFile);
-  WHILE NOT EOLN(INPUT)
-  DO
-    BEGIN
-      READ(INPUT, Ch);
-      IF (Ch = '0') OR (Ch = '1') OR (Ch = '2') OR (Ch = '3') OR (Ch = '4') OR (Ch = '5') 
-      OR (Ch = '6') OR (Ch = '7') OR (Ch = '8') OR (Ch = '9')
-      THEN
-        WRITE(IntDataFile, Ch)
-      ELSE
-        BREAK
-    END;
-  RESET(IntDataFile)
-END; { CreateIntDataFile }
+  
+BEGIN { ReadDigit }
+  IF NOT EOLN(SourceFile)
+  THEN
+    READ(SourceFile, Ch);  
+  Digit := -1;  
+  IF (Ch = '0') THEN Digit := 0;
+  IF (Ch = '1') THEN Digit := 1;
+  IF (Ch = '2') THEN Digit := 2;
+  IF (Ch = '3') THEN Digit := 3;
+  IF (Ch = '4') THEN Digit := 4;
+  IF (Ch = '5') THEN Digit := 5;
+  IF (Ch = '6') THEN Digit := 6;
+  IF (Ch = '7') THEN Digit := 7;
+  IF (Ch = '8') THEN Digit := 8;
+  IF (Ch = '9') THEN Digit := 9
+END; { ReadDigit }
 
-PROCEDURE ReadNumber(VAR SourceFile: TEXT; VAR Sum: INTEGER);
+PROCEDURE ReadNumber(VAR SourceFile: TEXT; VAR Number: INTEGER);
 VAR
   Digit: INTEGER;
   IsOverflow: BOOLEAN;
   
 BEGIN { ReadNumber }
-  RESET(IntDataFile);
+  Number := 0;
   Digit := 0;
   IsOverflow := FALSE;
   WHILE (NOT EOLN(SourceFile)) AND (NOT IsOverflow)
   DO
     BEGIN
-      READ(SourceFile, Digit);    
-      IsOverflow := (MAXINT DIV 10 < Sum) OR ((MAXINT DIV 10 = Sum) 
-                      AND (MAXINT MOD 10 < Digit));
-      IF NOT IsOverflow
+      ReadDigit(SourceFile, Digit);  
+      IF (Number >= 3276) AND (Digit > 7)
       THEN
-        Sum := Sum + Digit
+        IsOverflow := TRUE;
+      IF (Digit <> -1) AND (NOT IsOverflow)
+      THEN
+        Number := Number * 10 + Digit;
+      IF IsOverflow THEN BREAK   
     END;
   IF IsOverflow
   THEN
-    Sum := -1  
+    Number := -1 
 END; { ReadNumber }  
 
 BEGIN { Start }
   Min := 0;
   Max := 0;
-  ToolDigit := 0;
   SumArith := 0;
   CountDigits := 0;
+  ToolDigit := 0;
+  IsOverflow := FALSE;
   WHILE (NOT EOF(INPUT)) AND (NOT IsOverflow)
   DO
     BEGIN
-      WHILE NOT EOLN(INPUT) AND (ToolDigit <> -1) 
+      WHILE NOT EOLN(INPUT)
       DO
         BEGIN
-          CreateIntDataFile(IntDataFile);
-          ReadNumber(IntDataFile, ToolDigit);
-          IsOverflow := (ToolDigit = -1) OR (SumArith > (MAXINT - ToolDigit));
+          ReadNumber(INPUT, ToolDigit);
+          IsOverflow := ((ToolDigit = -1) OR (ToolDigit < 0));
           CountDigits := CountDigits + 1;
           IF (IsOverflow)
           THEN
@@ -75,15 +78,15 @@ BEGIN { Start }
               IF ToolDigit < Min
               THEN
                 Min := ToolDigit
-            END
+            END 
         END;
-      IF (ToolDigit <> -1) 
+      IF (IsOverflow)
       THEN
-        READLN(INPUT)
-      ELSE
         BREAK
+      ELSE  
+        READLN(INPUT)
     END; 
-  IF (ToolDigit = -1)
+  IF (IsOverflow)
   THEN
     WRITELN(OUTPUT, 'Not correct input, one of number is more than 32767')
   ELSE
