@@ -1,50 +1,58 @@
 PROGRAM SeventeenTwo(INPUT, OUTPUT);
 VAR
-  IntDataFile: TEXT;
-  Ch: CHAR;
-  Sum: INTEGER;
+  Number: INTEGER;
 
-PROCEDURE ReadNumber(VAR SourceFile: TEXT; VAR Sum: INTEGER);
+PROCEDURE ReadDigit(VAR SourceFile: TEXT; VAR Digit: INTEGER);
+VAR 
+  Ch: CHAR;
+  
+BEGIN { ReadDigit }
+  IF NOT EOLN(SourceFile)
+  THEN
+    READ(SourceFile, Ch);  
+  Digit := -1;  
+  IF (Ch = '0') THEN Digit := 0;
+  IF (Ch = '1') THEN Digit := 1;
+  IF (Ch = '2') THEN Digit := 2;
+  IF (Ch = '3') THEN Digit := 3;
+  IF (Ch = '4') THEN Digit := 4;
+  IF (Ch = '5') THEN Digit := 5;
+  IF (Ch = '6') THEN Digit := 6;
+  IF (Ch = '7') THEN Digit := 7;
+  IF (Ch = '8') THEN Digit := 8;
+  IF (Ch = '9') THEN Digit := 9
+END; { ReadDigit }
+
+PROCEDURE ReadNumber(VAR SourceFile: TEXT; VAR Number: INTEGER);
 VAR
   Digit: INTEGER;
   IsOverflow: BOOLEAN;
   
 BEGIN { ReadNumber }
-  RESET(IntDataFile);
   Digit := 0;
   IsOverflow := FALSE;
   WHILE (NOT EOLN(SourceFile)) AND (NOT IsOverflow)
   DO
     BEGIN
-      READ(SourceFile, Digit);    
-      IsOverflow := (MAXINT DIV 10 < Sum) OR ((MAXINT DIV 10 = Sum) 
-                      AND (MAXINT MOD 10 < Digit));
-      IF NOT IsOverflow
+      ReadDigit(SourceFile, Digit);
+      IsOverflow := (MAXINT DIV 10 < Number) OR ((MAXINT DIV 10 = Number) 
+                      AND (MAXINT MOD 10 < Number));
+      IF (Digit <> -1) AND (NOT IsOverflow)
       THEN
-        Sum := Sum + Digit
+        Number := Number * 10 + Digit;
+      IF IsOverflow THEN BREAK   
     END;
   IF IsOverflow
   THEN
-    Sum := -1  
+    Number := -1  
 END; { ReadNumber }  
 
 BEGIN { SeventeenTwo }
-  REWRITE(IntDataFile);
-  WHILE NOT EOLN(INPUT)
-  DO
-    BEGIN
-      READ(INPUT, Ch);
-      IF (Ch = '0') OR (Ch = '1') OR (Ch = '2') OR (Ch = '3') OR (Ch = '4') OR (Ch = '5') 
-      OR (Ch = '6') OR (Ch = '7') OR (Ch = '8') OR (Ch = '9')
-      THEN
-        WRITE(IntDataFile, Ch)
-      ELSE
-        BREAK
-    END;
-  ReadNumber(IntDataFile, Sum);
-  IF (Sum = -1)
+  WRITELN(OUTPUT, MAXINT);
+  ReadNumber(INPUT, Number);
+  IF (Number = -1)
   THEN
     WRITELN(OUTPUT, 'OVERFLOW DATA')
   ELSE  
-    WRITELN(OUTPUT, Sum)
+    WRITELN(OUTPUT, Number)
 END. { SeventeenTwo }
