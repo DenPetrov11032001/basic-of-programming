@@ -35,8 +35,9 @@ BEGIN { ReadNumber }
   DO
     BEGIN
       ReadDigit(SourceFile, Digit);
-      IsOverflow := (MAXINT DIV 10 < Number) OR ((MAXINT DIV 10 = Number) 
-                      AND (MAXINT MOD 10 < Number));
+      IF ((Number >= 3276) AND (Digit > 7))
+      THEN
+        IsOverflow := TRUE;
       IF (Digit <> -1) AND (NOT IsOverflow)
       THEN
         Number := Number * 10 + Digit;
@@ -48,7 +49,6 @@ BEGIN { ReadNumber }
 END; { ReadNumber }  
 
 BEGIN { SeventeenTwo }
-  WRITELN(OUTPUT, MAXINT);
   ReadNumber(INPUT, Number);
   IF (Number = -1)
   THEN
