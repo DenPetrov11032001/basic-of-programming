@@ -4,13 +4,10 @@ CONST
   ClassSize = 4;
   MaxScore = 100;
   MinScore = 0;
-TYPE
-  Score = 0 .. 100;
 VAR
   WhichScore: 0 .. NumberOfScores;
   Student: 0 .. ClassSize;
-  NextScore: Score;
-  Ave, TotalScore, ClassTotal: INTEGER; 
+  Ave, TotalScore, ClassTotal, NextScore: INTEGER; 
   Ch: CHAR;  
   NameStudentFile: TEXT; 
   IsOverflow: BOOLEAN; 
@@ -18,7 +15,7 @@ BEGIN {AverageScore}
   ClassTotal := 0;
   WRITELN('Student averages:');
   Student := 0;
- IsOverflow := FALSE;
+  IsOverflow := FALSE;
   WHILE (Student < ClassSize) AND (NOT IsOverflow)
   DO 
     BEGIN
