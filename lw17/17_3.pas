@@ -37,7 +37,7 @@ BEGIN { ReadNumber }
   DO
     BEGIN
       ReadDigit(SourceFile, Digit);  
-      IF (Number >= 3276) AND (Digit > 7)
+      IF ((Number >= 3276) AND (Digit > 7)) OR ((Number >= 10000) AND (Digit >= 0))
       THEN
         IsOverflow := TRUE;
       IF (Digit <> -1) AND (NOT IsOverflow)
