@@ -4,7 +4,7 @@ CONST
   MAX = 100;
 VAR
   Sieve: SET OF MIN..MAX;
-  UserMax, UserMin, I, J: INTEGER;
+  UserMax, UserMin, MainNumber, NextNumber: INTEGER;
 
 BEGIN { Prime }
   WRITE('Введите минимум (простое число): ');
@@ -15,33 +15,26 @@ BEGIN { Prime }
   IF (UserMin >= MIN) AND (UserMax <= MAX) AND (UserMin <= UserMax)
   THEN
     BEGIN
+      WRITE('Простые числа в диапазоне от ', UserMin, ' до ', UserMax, ' будут: ');
       Sieve := [UserMin..UserMax];
-      J := MIN;
-      I := MIN;
-      WHILE I <> (UserMax + 1)
+      NextNumber := MIN;
+      MainNumber := MIN;
+      WHILE MainNumber <= UserMax
       DO
         BEGIN
-          J := I + 1;
-          WHILE J <> (UserMax + 1)
+          WHILE NextNumber <= UserMax
           DO
             BEGIN
-              IF J MOD I = 0
-              THEN
-                Sieve := Sieve - [J];
-              J := J + 1
+              Sieve := Sieve - [NextNumber];
+              NextNumber := NextNumber + MainNumber     
             END;
-          I := I + 1
+          WRITE(MainNumber, ' ');
+          WHILE (NOT(MainNumber IN Sieve)) AND (MainNumber <= UserMax)
+          DO
+            MainNumber := MainNumber + 1;    
+          NextNumber := MainNumber
         END;
-      I := UserMin;
-      WRITE('Простые числа в диапазоне от ', UserMin, ' до ', UserMax, ' будут: ');
-      WHILE I <> (UserMax + 1)
-      DO
-        BEGIN
-          IF I IN Sieve
-          THEN
-            WRITE(I, ' ');
-          I := I + 1
-        END
+      WRITELN(OUTPUT)
     END
   ELSE
     WRITELN('Данные введены некорректно')     
