@@ -26,10 +26,12 @@ IMPLEMENTATION
     WRITE(FOut, Result.Day:3)
   END;{WriteDate}
  
-  PROCEDURE ReadDate (VAR FIn: TEXT; VAR Result: Date);
+  PROCEDURE ReadDate(VAR FIn: TEXT; VAR Result: Date);
   BEGIN{ReadDate}
     ReadMonth(FIn, Result.Mo);
-    READ(FIn, Result.Day)
+    IF Result.Mo <> NoMonth
+    THEN
+      READ(FIn, Result.Day)
   END;{ReadDate}
  
   PROCEDURE ReadMonth(VAR FIn: TEXT; VAR Mo: Month);
@@ -49,12 +51,10 @@ IMPLEMENTATION
     IF (Ch1 = 'O') AND (Ch2 = 'C') AND (Ch3 = 'T') THEN Mo := Oct ELSE
     IF (Ch1 = 'N') AND (Ch2 = 'O') AND (Ch3 = 'V') THEN Mo := Nov ELSE
     IF (Ch1 = 'D') AND (Ch2 = 'E') AND (Ch3 = 'C') THEN Mo := Dec
-      ELSE Mo := NoMonth
+        ELSE Mo := NoMonth
   END;{ReadMonth}
  
   PROCEDURE WriteMonth(VAR FOut: TEXT; VAR Mo: Month);
-  VAR
-    Ch1, Ch2, Ch3: CHAR;
   BEGIN {WriteMonth}
     IF Mo = Jan THEN WRITE('JAN') ELSE
     IF Mo = Feb THEN WRITE('FEB') ELSE

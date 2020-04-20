@@ -7,8 +7,8 @@ VAR
   FInput: TEXT;
  
 BEGIN{SortDate}
-  ASSIGN(DateFile, 'DF.TXT');
-  ASSIGN(TFile, 'TF.TXT');
+  ASSIGN(DateFile, 'DF.DAT');
+  ASSIGN(TFile, 'TF.DAT');
   ASSIGN(FInput, 'FI.TXT');
   REWRITE(DateFile);
   RESET(FInput);
@@ -21,12 +21,12 @@ BEGIN{SortDate}
     {Поместить новую дату в DateFile в соответствующее место}
     BEGIN
       RESET(DateFile);
-      ReadDate(FInput,D);
+      ReadDate(FInput, D);
       READLN(FInput);
       IF (D.Mo <> NoMonth)
       THEN
         BEGIN                
-          {копируем элементы меньшие,чем D из DateFile в TFile}
+          {копируем элементы меньшие, чем D из DateFile в TFile}
           REWRITE(TFile);
           Copying := TRUE;
           WHILE NOT EOF(DateFile) AND Copying
@@ -38,29 +38,29 @@ BEGIN{SortDate}
                 WRITE(TFile, VarDate)
               ELSE
                 Copying := FALSE
+            END;
+          {копируем D в TFile}
+          WRITE(TFile, D);
+          {копируем остаток DateFile в TFile}
+          IF NOT Copying
+          THEN
+            WRITE(TFile, VarDate);
+          WHILE NOT EOF(DateFile)
+          DO
+            BEGIN
+              READ(DateFile, VarDate);
+              WRITE(TFile, VarDate)
+            END;
+          {копируем TFile в DateFile}
+          REWRITE(DateFile);
+          RESET(TFile);
+          WHILE NOT EOF(TFile)
+          DO
+            BEGIN
+              READ(TFiLe, VarDate);
+              WRITE(DateFile, VarDate)
             END
-        END;
-      {копируем D в TFile}
-      WRITE(TFile, D);
-      {копируем остаток DateFile в TFile}
-      IF NOT Copying
-      THEN
-        WRITE(TFile, VarDate);
-      WHILE NOT EOF(DateFile)
-      DO
-        BEGIN
-          READ(DateFile, VarDate);
-          WRITE(TFile, VarDate)
-        END;
-      {копируем TFile в DateFile}
-      REWRITE(DateFile);
-      RESET(TFile);
-      WHILE NOT EOF(TFile)
-      DO
-        BEGIN
-          READ(TFiLe, VarDate);
-          WRITE(DateFile, VarDate)
-        END
+        END    
     END;
   {Копируем DateFile в OUTPUT}
   RESET(DateFile);
