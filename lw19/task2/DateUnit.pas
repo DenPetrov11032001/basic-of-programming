@@ -1,5 +1,5 @@
 UNIT DateUnit;
-{ модуль для работы с датами }
+{ Г¬Г®Г¤ГіГ«Гј Г¤Г«Гї Г°Г ГЎГ®ГІГ» Г± Г¤Г ГІГ Г¬ГЁ }
 INTERFACE
   TYPE
     Month = (NoMonth, Jan, Feb, Mar, Apr, May, Jun,
@@ -11,12 +11,12 @@ INTERFACE
              END;  
     FileOfDate = FILE OF Date;
            
-  PROCEDURE WriteMonth(VAR FOut: TEXT; VAR Mo: Month); { Запись месяца в файл }
-  PROCEDURE WriteDate(VAR FOut: TEXT; VAR Result: Date); { Запись даты в файл }
-  PROCEDURE ReadMonth(VAR FIn: TEXT; VAR Mo: Month); { Чтение месяца из файла }
-  PROCEDURE ReadDate(VAR FIn: TEXT; VAR Result: Date); { Чтение дня из файла }
-  FUNCTION Less(VAR D1, D2: Date): BOOLEAN; { Сравнение 2-х дат }
-  PROCEDURE CopyOut(VAR DateFile: FileOfDate); { Вывод даты из файла в OUTPUT }
+  PROCEDURE WriteMonth(VAR FOut: TEXT; VAR Mo: Month); { Г‡Г ГЇГЁГ±Гј Г¬ГҐГ±ГїГ¶Г  Гў ГґГ Г©Г« }
+  PROCEDURE WriteDate(VAR FOut: TEXT; VAR Result: Date); { Г‡Г ГЇГЁГ±Гј Г¤Г ГІГ» Гў ГґГ Г©Г« }
+  PROCEDURE ReadMonth(VAR FIn: TEXT; VAR Mo: Month); { Г—ГІГҐГ­ГЁГҐ Г¬ГҐГ±ГїГ¶Г  ГЁГ§ ГґГ Г©Г«Г  }
+  PROCEDURE ReadDate(VAR FIn: TEXT; VAR Result: Date); { Г—ГІГҐГ­ГЁГҐ Г¤Г­Гї ГЁГ§ ГґГ Г©Г«Г  }
+  FUNCTION Less(VAR D1, D2: Date): BOOLEAN; { Г‘Г°Г ГўГ­ГҐГ­ГЁГҐ 2-Гµ Г¤Г ГІ }
+  PROCEDURE CopyOut(VAR DateFile: FileOfDate); { Г‚Г»ГўГ®Г¤ Г¤Г ГІГ» ГЁГ§ ГґГ Г©Г«Г  Гў OUTPUT }
   
 IMPLEMENTATION
     
