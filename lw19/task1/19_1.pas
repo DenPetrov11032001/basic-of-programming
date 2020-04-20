@@ -4,19 +4,17 @@ CONST
   MAX = 100;
 VAR
   Sieve: SET OF MIN..MAX;
-  UserMax, UserMin, MainNumber, NextNumber: INTEGER;
+  UserMax, MainNumber, NextNumber: INTEGER;
 
 BEGIN { Prime }
-  WRITE('Введите минимум (простое число): ');
-  READLN(UserMin);
   WRITE('Введите максимум: ');
   READLN(UserMax);
   WRITELN;  
-  IF (UserMin >= MIN) AND (UserMax <= MAX) AND (UserMin <= UserMax)
+  IF (MIN <= UserMax) AND (UserMax <= MAX)
   THEN
     BEGIN
-      WRITE('Простые числа в диапазоне от ', UserMin, ' до ', UserMax, ' будут: ');
-      Sieve := [UserMin..UserMax];
+      WRITE('Простые числа в диапазоне до ', UserMax, ' будут: ');
+      Sieve := [MIN..MAX];
       NextNumber := MIN;
       MainNumber := MIN;
       WHILE MainNumber <= UserMax
