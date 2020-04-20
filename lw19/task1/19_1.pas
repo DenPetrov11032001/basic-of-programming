@@ -7,13 +7,13 @@ VAR
   UserMax, MainNumber, NextNumber: INTEGER;
 
 BEGIN { Prime }
-  WRITE('Введите максимум: ');
+  WRITE('Р’РІРµРґРёС‚Рµ РјР°РєСЃРёРјСѓРј: ');
   READLN(UserMax);
   WRITELN;  
   IF (MIN <= UserMax) AND (UserMax <= MAX)
   THEN
     BEGIN
-      WRITE('Простые числа в диапазоне до ', UserMax, ' будут: ');
+      WRITE('Р§РёСЃР»Р° РІ РґРёР°РїР°Р·РѕРЅРµ РґРѕ ', UserMax, ' Р±СѓРґСѓС‚: ');
       Sieve := [MIN..MAX];
       NextNumber := MIN;
       MainNumber := MIN;
@@ -35,5 +35,5 @@ BEGIN { Prime }
       WRITELN(OUTPUT)
     END
   ELSE
-    WRITELN('Данные введены некорректно')     
+    WRITELN('Р”Р°РЅРЅС‹Рµ РІРІРµРґРµРЅС‹ РЅРµРєРѕСЂСЂРµРєС‚РЅРѕ')     
 END. { Prime } 
