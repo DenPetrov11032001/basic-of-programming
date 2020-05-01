@@ -65,7 +65,7 @@ BEGIN  {Encryption}
                   READ(ChiperFile, Ch2);
               IF Ch2 IN AllUsedChars
               THEN    
-                FillCode(Code, Ch1, Ch2)
+                FillCode(Code, Ch2, Ch1)
               ELSE
                 FillCode(Code, Ch1, Ch1)    
             END
