@@ -1,4 +1,4 @@
-PROGRAM Encryption(INPUT, OUTPUT);
+PROGRAM Decryption(INPUT, OUTPUT);
 CONST
   Len = 20;
 TYPE
@@ -16,7 +16,7 @@ VAR
 
 PROCEDURE InitializeSieve(VAR Sieve: Sieve);
 BEGIN  {InitializeChiper}
-  Sieve := [' ', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K',
+  Sieve := ['#', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K',
             'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W',
                     'X', 'Y', 'Z']
 END;  {InitializeSieve}
@@ -26,21 +26,25 @@ BEGIN  {InitializeChiper}
   Code[Ind] := Ch
 END;  {InitializeChiper}
  
-PROCEDURE Encode(VAR Msg: Str; VAR Code: Chiper; VAR LenUserStr: INTEGER);
+PROCEDURE Decode(VAR Msg: Str; VAR Code: Chiper; VAR LenUserStr: INTEGER);
 VAR
   Index: LengthStr;
-BEGIN  {Encode}
+BEGIN  {Decode}
   FOR Index := 1 TO LenUserStr
   DO
     BEGIN
-      WRITE(OUTPUT, Code[Msg[Index]]);
+      IF Msg[Index] IN AllUsedChars
+      THEN
+        WRITE(OUTPUT, Code[Msg[Index]])
+      ELSE
+        WRITE(OUTPUT, Msg[Index])  
     END;
   WRITELN
-END;  {Encode}
+END;  {Decode}
 
  
-BEGIN  {Encryption}
-  Code[' '] := '#'; 
+BEGIN  {Decryption}
+  Code['#'] := ' '; 
   InitializeSieve(AllUsedChars);
   ASSIGN(ChiperFile, 'Chiper.txt');
   RESET(ChiperFile);
@@ -83,9 +87,11 @@ BEGIN  {Encryption}
           I := I + 1;
           READ(INPUT, Msg[I]);
           WRITE(OUTPUT, Msg[I])
+          
+ 
         END;
       READLN(INPUT);
       WRITELN(OUTPUT);
-      Encode(Msg, Code, I)   
+      Decode(Msg, Code, I)   
     END 
-END.  {Encryption}
+END.  {Decryption}

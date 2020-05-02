@@ -5,10 +5,19 @@ TYPE
   LengthStr = 1 .. Len;
   Str = ARRAY [1 .. Len] OF ' ' .. 'Z';
   Chiper = ARRAY [' ' .. 'Z'] OF CHAR;
+  Sieve = SET OF ' ' .. 'Z';
 VAR
   Msg: Str;
   Code: Chiper;
+  AllUsedChars: Sieve;
   I: INTEGER;
+
+PROCEDURE InitializeSieve(VAR Sieve: Sieve);
+BEGIN  {InitializeChiper}
+  Sieve := [' ', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K',
+            'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W',
+                    'X', 'Y', 'Z']
+END;  {InitializeSieve}
 
 PROCEDURE Initialize(VAR Code: Chiper);
 BEGIN  {Initialize}
@@ -48,13 +57,18 @@ BEGIN  {Encode}
   FOR Index := 1 TO LenUserStr
   DO
     BEGIN
-      WRITE(Code[Msg[Index]]);
+      IF Msg[Index] IN AllUsedChars
+      THEN
+        WRITE(OUTPUT, Code[Msg[Index]])
+      ELSE
+        WRITE(OUTPUT, Msg[Index])
     END;
   WRITELN
 END;  {Encode}
 
  
-BEGIN  {Encryption} 
+BEGIN  {Encryption}
+ InitializeSieve(AllUsedChars); 
  Initialize(Code);
  WHILE NOT EOF
  DO

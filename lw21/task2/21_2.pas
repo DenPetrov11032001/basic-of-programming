@@ -33,7 +33,11 @@ BEGIN  {Encode}
   FOR Index := 1 TO LenUserStr
   DO
     BEGIN
-      WRITE(OUTPUT, Code[Msg[Index]]);
+      IF Msg[Index] IN AllUsedChars
+      THEN
+        WRITE(OUTPUT, Code[Msg[Index]])
+      ELSE
+        WRITE(OUTPUT, Msg[Index])
     END;
   WRITELN
 END;  {Encode}
