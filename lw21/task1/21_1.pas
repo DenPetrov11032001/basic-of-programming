@@ -19,8 +19,8 @@ BEGIN  {InitializeChiper}
                     'X', 'Y', 'Z']
 END;  {InitializeSieve}
 
-PROCEDURE Initialize(VAR Code: Chiper);
-BEGIN  {Initialize}
+PROCEDURE InitializeCode(VAR Code: Chiper);
+BEGIN  {InitializeCode}
   Code['A'] := 'Z';
   Code['B'] := 'Y';
   Code['C'] := 'X';
@@ -47,7 +47,7 @@ BEGIN  {Initialize}
   Code['X'] := 'C';
   Code['Y'] := 'B';
   Code['Z'] := 'A';
-END;  {Initialize}
+END;  {InitializeCode}
  
 PROCEDURE Encode(VAR S: Str);
 VAR
@@ -69,7 +69,7 @@ END;  {Encode}
  
 BEGIN  {Encryption}
   InitializeSieve(SieveCorrectChars);
-  Initialize(Code);
+  InitializeCode(Code);
   WHILE NOT EOF
   DO
     BEGIN
