@@ -21,7 +21,7 @@ END;  {InitializeSieve}
 
 PROCEDURE Initialize(VAR Code: Chiper);
 BEGIN  {Initialize}
-  Code[' '] := '#';
+  Code[' '] := '@';
   Code['A'] := 'Z';
   Code['B'] := 'Y';
   Code['C'] := 'X';
