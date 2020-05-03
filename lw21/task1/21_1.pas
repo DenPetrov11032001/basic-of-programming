@@ -4,24 +4,14 @@ CONST
 TYPE
   LengthStr = 1 .. Len;
   Str = ARRAY [1 .. Len] OF ' ' .. 'Z';
-  Chiper = ARRAY [' ' .. 'Z'] OF CHAR;
-  Sieve = SET OF ' ' .. 'Z';
+  Chiper = ARRAY ['A' .. 'Z'] OF CHAR;
 VAR
   Msg: Str;
   Code: Chiper;
-  AllUsedChars: Sieve;
   I: INTEGER;
-
-PROCEDURE InitializeSieve(VAR Sieve: Sieve);
-BEGIN  {InitializeChiper}
-  Sieve := [' ', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K',
-            'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W',
-                    'X', 'Y', 'Z']
-END;  {InitializeSieve}
 
 PROCEDURE Initialize(VAR Code: Chiper);
 BEGIN  {Initialize}
-  Code[' '] := '#';
   Code['A'] := 'Z';
   Code['B'] := 'Y';
   Code['C'] := 'X';
@@ -50,25 +40,25 @@ BEGIN  {Initialize}
   Code['Z'] := 'A';
 END;  {Initialize}
  
-PROCEDURE Encode(VAR Msg: Str; VAR Code: Chiper; VAR LenUserStr: INTEGER);
+PROCEDURE Encode(VAR S: Str);
 VAR
   Index: LengthStr;
-BEGIN  {Encode}
-  FOR Index := 1 TO LenUserStr
+BEGIN   {Encode}
+  FOR Index := 1 TO Len
   DO
-    BEGIN
-      IF Msg[Index] IN AllUsedChars
+    IF S[Index] IN ['A' .. 'Z']
+    THEN
+      WRITE(Code[S[Index]])
+    ELSE
+      IF S[Index] = ' '
       THEN
-        WRITE(OUTPUT, Code[Msg[Index]])
+        WRITE('@')
       ELSE
-        WRITE(OUTPUT, Msg[Index])
-    END;
+        WRITE(S[Index]);
   WRITELN
 END;  {Encode}
-
  
 BEGIN  {Encryption}
- InitializeSieve(AllUsedChars); 
  Initialize(Code);
  WHILE NOT EOF
  DO
@@ -83,6 +73,6 @@ BEGIN  {Encryption}
        END;
      READLN;
      WRITELN;
-     Encode(Msg, Code, I)   
+     Encode(Msg)   
    END 
 END.  {Encryption}

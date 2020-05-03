@@ -3,23 +3,14 @@ CONST
   Len = 20;
 TYPE
   LengthStr = 1 .. Len;
-  Str = ARRAY [1 .. Len] OF ' ' .. 'Z';
-  Chiper = ARRAY [' ' .. 'Z'] OF CHAR;
-  Sieve = SET OF ' ' .. 'Z';
+  Str = ARRAY [1 .. Len] OF 'A' .. 'Z';
+  Chiper = ARRAY ['A' .. 'Z'] OF CHAR;
 VAR
   Msg: Str;
   Code: Chiper;
   I: INTEGER;
   Ch1, Ch2: CHAR;
-  AllUsedChars: Sieve;
   ChiperFile: TEXT;
-
-PROCEDURE InitializeSieve(VAR Sieve: Sieve);
-BEGIN  {InitializeChiper}
-  Sieve := ['#', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K',
-            'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W',
-                    'X', 'Y', 'Z']
-END;  {InitializeSieve}
 
 PROCEDURE FillCode(VAR Code: Chiper; VAR Ind, Ch: CHAR);
 BEGIN  {InitializeChiper}
@@ -33,19 +24,21 @@ BEGIN  {Decode}
   FOR Index := 1 TO LenUserStr
   DO
     BEGIN
-      IF Msg[Index] IN AllUsedChars
+      IF Msg[Index] IN ['A' .. 'Z']
       THEN
         WRITE(OUTPUT, Code[Msg[Index]])
       ELSE
-        WRITE(OUTPUT, Msg[Index])  
+        IF Msg[Index] = ' '
+        THEN
+          WRITE(OUTPUT, '@')
+        ELSE  
+          WRITE(OUTPUT, Msg[Index]) 
     END;
   WRITELN
 END;  {Decode}
 
  
 BEGIN  {Decryption}
-  Code['#'] := ' '; 
-  InitializeSieve(AllUsedChars);
   ASSIGN(ChiperFile, 'Chiper.txt');
   RESET(ChiperFile);
   WHILE NOT EOF(ChiperFile)
@@ -58,7 +51,7 @@ BEGIN  {Decryption}
           WHILE (Ch1 = ' ') AND (NOT EOLN(ChiperFile))
           DO
             READ(ChiperFile, Ch1);
-          IF (Ch1 IN AllUsedChars) AND (NOT EOLN(ChiperFile))
+          IF (Ch1 IN ['A' .. 'Z']) AND (NOT EOLN(ChiperFile))
           THEN
             BEGIN
               READ(ChiperFile, Ch2);
@@ -67,11 +60,11 @@ BEGIN  {Decryption}
                 WHILE (Ch2 = ' ') AND (NOT EOLN(ChiperFile))
                 DO
                   READ(ChiperFile, Ch2);
-              IF Ch2 IN AllUsedChars
+              IF Ch2 IN ['A' .. 'Z']
               THEN    
                 FillCode(Code, Ch2, Ch1)
               ELSE
-                FillCode(Code, Ch1, Ch1)    
+                FillCode(Code, Ch2, Ch2)    
             END
         END;
       READLN(ChiperFile)
@@ -87,8 +80,6 @@ BEGIN  {Decryption}
           I := I + 1;
           READ(INPUT, Msg[I]);
           WRITE(OUTPUT, Msg[I])
-          
- 
         END;
       READLN(INPUT);
       WRITELN(OUTPUT);
