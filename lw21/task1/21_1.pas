@@ -5,10 +5,19 @@ TYPE
   LengthStr = 1 .. Len;
   Str = ARRAY [1 .. Len] OF ' ' .. 'Z';
   Chiper = ARRAY ['A' .. 'Z'] OF CHAR;
+  SieveChars = SET OF 'A' .. 'Z';
 VAR
   Msg: Str;
   Code: Chiper;
   I: INTEGER;
+  SieveCorrectChars: SieveChars;
+
+PROCEDURE InitializeSieve(VAR Sieve: SieveChars);
+BEGIN  {InitializeChiper}
+  Sieve := ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K',
+            'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W',
+                    'X', 'Y', 'Z']
+END;  {InitializeSieve}
 
 PROCEDURE Initialize(VAR Code: Chiper);
 BEGIN  {Initialize}
@@ -46,7 +55,7 @@ VAR
 BEGIN   {Encode}
   FOR Index := 1 TO Len
   DO
-    IF S[Index] IN ['A' .. 'Z']
+    IF S[Index] IN SieveCorrectChars
     THEN
       WRITE(Code[S[Index]])
     ELSE
@@ -59,20 +68,21 @@ BEGIN   {Encode}
 END;  {Encode}
  
 BEGIN  {Encryption}
- Initialize(Code);
- WHILE NOT EOF
- DO
-   BEGIN
-     I := 0;
-     WHILE NOT EOLN AND (I < Len)
-     DO
-       BEGIN
-         I := I + 1;
-         READ(Msg[I]);
-         WRITE(Msg[I])
-       END;
-     READLN;
-     WRITELN;
-     Encode(Msg)   
-   END 
+  InitializeSieve(SieveCorrectChars);
+  Initialize(Code);
+  WHILE NOT EOF
+  DO
+    BEGIN
+      I := 0;
+      WHILE NOT EOLN AND (I < Len)
+      DO
+        BEGIN
+          I := I + 1;
+          READ(Msg[I]);
+          WRITE(Msg[I])
+        END;
+      READLN;
+      WRITELN;
+      Encode(Msg)   
+    END 
 END.  {Encryption}
