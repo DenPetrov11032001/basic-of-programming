@@ -1,3 +1,4 @@
-A  B
+A B
 B A
-C     D
+C D
+  Z

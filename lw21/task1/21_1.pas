@@ -4,8 +4,8 @@ CONST
 TYPE
   LengthStr = 1 .. Len;
   Str = ARRAY [1 .. Len] OF ' ' .. 'Z';
-  Chiper = ARRAY ['A' .. 'Z'] OF CHAR;
-  SieveChars = SET OF 'A' .. 'Z';
+  Chiper = ARRAY [' ' .. 'Z'] OF CHAR;
+  SieveChars = SET OF ' ' .. 'Z';
 VAR
   Msg: Str;
   Code: Chiper;
@@ -14,13 +14,14 @@ VAR
 
 PROCEDURE InitializeSieve(VAR Sieve: SieveChars);
 BEGIN  {InitializeChiper}
-  Sieve := ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K',
+  Sieve := [' ', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K',
             'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W',
                     'X', 'Y', 'Z']
 END;  {InitializeSieve}
 
 PROCEDURE InitializeCode(VAR Code: Chiper);
 BEGIN  {InitializeCode}
+  Code[' '] := '@';
   Code['A'] := 'Z';
   Code['B'] := 'Y';
   Code['C'] := 'X';
@@ -59,11 +60,7 @@ BEGIN   {Encode}
     THEN
       WRITE(Code[S[Index]])
     ELSE
-      IF S[Index] = ' '
-      THEN
-        WRITE('@')
-      ELSE
-        WRITE(S[Index]);
+      WRITE(S[Index]);
   WRITELN
 END;  {Encode}
  
